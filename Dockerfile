@@ -6,9 +6,12 @@ ENV NODE_ENV="production"
 ENV PATH="./node_modules/.bin:$PATH"
 
 # Copy built application from previous container
-COPY . .
+COPY package.json .
+COPY yarn.lock .
 
 RUN yarn 
+
+COPY . .
 
 # Expose application default port
 EXPOSE 3000
