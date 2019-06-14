@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "dev": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1"
+  },
+  "name": "ci-workshop",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "git@github.com:iwanttobealight/ci-workshop.git",
+  "author": "iwanttobealight <iwanttobealight@yandex.ru>",
+  "license": "MIT"
+}
