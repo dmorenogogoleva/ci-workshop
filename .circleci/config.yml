@@ -22,6 +22,20 @@ jobs:
             docker login -u "$DOCKER_LOGIN" -p "$DOCKER_PASSWORD"
             docker push iwanttobealight/$IMAGE_NAME:$IMAGE_TAG
 
+deliver:
+  machine:
+    enabled: true
+  steps:
+    - run:
+        name: Deploy Over SSH
+        command: ssh $SSH_USER@$SSH_HOST "cd /root &&
+          sudo docker login -u "$DOCKER_LOGIN" -p "$DOCKER_PASSWORD" &&
+          sudo docker pull iwanttobealight/ci-workshop &&
+          sudo docker logout &&
+          sudo docker-compose down &&
+          sudo docker-compose up -d &&
+          sudo docker image prune -f"
+
 workflows:
   version: 2
   # for master brunch
@@ -32,3 +46,10 @@ workflows:
             branches:
               only:
                 - master
+      - deliver:
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - build_and_push
