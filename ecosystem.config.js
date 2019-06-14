@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'API',
       script: 'app.js',
-      instances: 'max',
+      instances: 1,
       autorestart: true,
       watch: false,
       max_memory_restart: '1G',
