@@ -19,7 +19,7 @@ jobs:
           command: |
             source $BASH_ENV
             docker build -t iwanttobealight/$IMAGE_NAME:$IMAGE_TAG .
-            docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+            docker login -u "$DOCKER_LOGIN" -p "$DOCKER_PASSWORD"
             docker push iwanttobealight/$IMAGE_NAME:$IMAGE_TAG
 
 workflows:
