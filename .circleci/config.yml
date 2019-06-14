@@ -13,29 +13,15 @@ jobs:
           name: Setup Env
           command: |
             echo 'export IMAGE_TAG=${CIRCLE_TAG:-latest}' >> $BASH_ENV
-            echo 'export IMAGE_NAME=wazzapps-admin-front' >> $BASH_ENV
+            echo 'export IMAGE_NAME=ci-workshop' >> $BASH_ENV
       - run:
           name: Build and push Docker image
           command: |
             source $BASH_ENV
-            docker build -f Dockerfile-front -t breadheadhub/$IMAGE_NAME:$IMAGE_TAG .
+            docker build -t iwanttobealight/$IMAGE_NAME:$IMAGE_TAG .
             docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-            docker push breadheadhub/$IMAGE_NAME:$IMAGE_TAG
-  deliver:
-    machine:
-      enabled: true
-    steps:
-      - run:
-          name: Deploy Over SSH
-          command:
-            ssh $SSH_USER@$SSH_HOST "cd /home/cloud-user/www/wazzapps-admin &&
-            sudo docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" &&
-            sudo docker pull breadheadhub/wazzapps-admin-front &&
-            sudo docker pull breadheadhub/wazzapps-admin-back &&
-            sudo docker logout &&
-            sudo docker-compose down &&
-            sudo docker-compose up -d &&
-            sudo docker image prune -f"
+            docker push iwanttobealight/$IMAGE_NAME:$IMAGE_TAG
+
 workflows:
   version: 2
   # for master brunch
@@ -46,27 +32,3 @@ workflows:
             branches:
               only:
                 - master
-      - deliver:
-          filters:
-            branches:
-              only:
-                - master
-          requires:
-            - build_and_push
-  # for tags
-  deploy-prod:
-    jobs:
-      - build_and_push:
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
-      - deliver:
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
-          requires:
-            - build_and_push
