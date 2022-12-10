@@ -3,7 +3,7 @@
     "dev": "pm2 start pm2.js"
   },
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "nodemon": "^1.19.1",
     "pm2": "^3.5.1"
   },
